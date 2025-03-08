@@ -1,0 +1,100 @@
+.
+├── biz
+│   ├── dal
+│   │   ├── db
+│   │   │   ├── init.go
+│   │   │   ├── interact.go
+│   │   │   ├── model.go
+│   │   │   ├── socialize.go
+│   │   │   ├── user.go
+│   │   │   └── video.go
+│   │   └── init.go
+│   ├── handler
+│   │   ├── interact
+│   │   │   └── interact_service.go
+│   │   ├── ping.go
+│   │   ├── socialize
+│   │   │   └── socialize_service.go
+│   │   ├── user
+│   │   │   └── user_service.go
+│   │   └── video
+│   │       └── video_service.go
+│   ├── middleware
+│   │   └── jwt
+│   │       └── jwt.go
+│   ├── model
+│   │   ├── interact
+│   │   │   └── interact.go
+│   │   ├── model
+│   │   │   └── model.go
+│   │   ├── socialize
+│   │   │   └── socialize.go
+│   │   ├── user
+│   │   │   └── user.go
+│   │   └── video
+│   │       └── video.go
+│   ├── pack
+│   │   ├── comment.go
+│   │   ├── pack.go
+│   │   ├── simpleuser.go
+│   │   ├── user.go
+│   │   └── video.go
+│   ├── router
+│   │   ├── auth
+│   │   │   └── auth.go
+│   │   ├── interact
+│   │   │   ├── interact.go
+│   │   │   └── middleware.go
+│   │   ├── model
+│   │   │   ├── middleware.go
+│   │   │   └── model.go
+│   │   ├── register.go
+│   │   ├── socialize
+│   │   │   ├── middleware.go
+│   │   │   └── socialize.go
+│   │   ├── user
+│   │   │   ├── middleware.go
+│   │   │   └── user.go
+│   │   └── video
+│   │       ├── middleware.go
+│   │       └── video.go
+│   └── service
+│       ├── interact.go
+│       ├── service.go
+│       ├── socialize.go
+│       ├── store.go
+│       ├── user.go
+│       └── video.go
+├── build.sh
+├── config
+│   └── sql
+│       └── init.sql
+├── go.mod
+├── go.sum
+├── idl
+│   ├── interact.thrift
+│   ├── model.thrift
+│   ├── socialize.thrift
+│   ├── user.thrift
+│   └── video.thrift
+├── main.go
+├── makefile
+├── note.txt
+├── output
+│   ├── bin
+│   │   └── hertz_service
+│   └── bootstrap.sh
+├── pkg
+│   ├── constants
+│   │   └── constants.go
+│   ├── crypt
+│   │   └── crypt.go
+│   └── oss
+│       └── oss.go
+├── router_gen.go
+├── router.go
+└── script
+    └── bootstrap.sh
+
+35 directories, 61 files
+
