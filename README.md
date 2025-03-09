@@ -2,7 +2,7 @@
 
 ## 考核内容
 
-[考核内容参考]([learn-go/docs/4-大作品.md at main · west2-online/learn-go](https://github.com/west2-online/learn-go/blob/main/docs/4-大作品.md) "超链接title")
+[考核内容参考]([learn-go/docs/4-大作品.md at main · west2-online/learn-go](https://github.com/west2-online/learn-go/blob/main/docs/4-大作品.md).)
 
 ## 接口实现
 
