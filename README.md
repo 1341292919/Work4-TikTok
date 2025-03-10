@@ -1,8 +1,10 @@
 # West2-online(learn-go考核4)
 
 ## 考核内容
+[考核内容参考](https://github.com/west2-online/learn-go/blob/main/docs/4-大作品.md)
 
-[考核内容参考]([learn-go/docs/4-大作品.md at main · west2-online/learn-go](https://github.com/west2-online/learn-go/blob/main/docs/4-大作品.md) "超链接title")
+## 飞书
+[文档](https://vcn9ra8gf7nh.feishu.cn/wiki/CNcPwhv1ZiVVFOkrJJ3cBh64ntf)
 
 ## 接口实现
 

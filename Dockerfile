@@ -5,7 +5,9 @@ ENV GOOS linux
 ENV GOPROXY https://goproxy.cn,direct
 
 RUN mkdir -p /app
+
 WORKDIR /app
+ADD  . /app
 RUN go mod tidy
 RUN sh build.sh
 

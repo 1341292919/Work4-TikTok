@@ -2,13 +2,13 @@
 popular查询需要 兼顾对起始终止时间的条件约束
 将 两个日期变量以time.time的类型传入时，无法被数据库正确查找。
 2025.3.6
-事实证明我们可以用time.time类型去查询数据库，popular接口出问题竟然是因为service传入参数时将fromdate与todate位置弄反了
+事实证明我们可以用time.time类型去查询数据库，
 
 TableComment本不应该设置delete_at的 并且当用户没有删除该评论的权限时，返回的信息也不够准确
 
 处理密码加密时，拉取了"golang.org/x/crypto/bcrypt" 不明白为什么要pkg下的目录建立crypt
 
-完善了makefile内的内容 make命令是linux才有的吗
+完善了makefile内的内容
 
 docker image
 docker ps
