@@ -186,6 +186,7 @@ func QueryVideoCommentList(ctx context.Context, videoid, pagesize, pagenum int64
 	err := DB.WithContext(ctx).
 		Table(constants.TableComment).
 		Where("video_id = ?", videoid).
+		Where("deleted_at IS NULL"). // 排除已软删除的记录
 		Limit(int(pagesize)).
 		Offset(int((pagenum - 1) * pagesize)).
 		Count(&count).
@@ -198,12 +199,12 @@ func QueryVideoCommentList(ctx context.Context, videoid, pagesize, pagenum int64
 }
 
 func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) error {
-	hlog.Infof("%v  %v", videoid, commentid)
 	//如果有传入视频的id，那么就删掉所有的评论
 	var err error
 	if videoid != 0 {
 		var commentResp []*Comment
-		err = DB.WithContext(ctx).Table(constants.TableComment).
+		err = DB.WithContext(ctx).
+			Table(constants.TableComment).
 			Where("video_id = ? AND user_id = ?", videoid, userid).
 			Find(&commentResp).
 			Error
@@ -215,8 +216,7 @@ func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) e
 			Delete(&Comment{
 				VideoId: videoid,
 				UserId:  userid,
-			}).
-			Error
+			}).Error
 		if err != nil {
 			return err
 		}
@@ -237,11 +237,12 @@ func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) e
 		err = DB.WithContext(ctx).
 			Table(constants.TableComment).
 			Where("id = ? And user_id = ?", commentid, userid).
-			Find(&commentResp).
+			First(&commentResp).
 			Error
 		if err != nil {
 			return err
 		}
+		hlog.Infof("%v  %v", commentid, userid)
 		err = DB.WithContext(ctx).
 			Table(constants.TableComment).
 			Delete(&Comment{

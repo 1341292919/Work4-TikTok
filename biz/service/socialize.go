@@ -4,6 +4,7 @@ import (
 	"TikTok/biz/dal/db"
 	"TikTok/biz/model/socialize"
 	"context"
+	"errors"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -17,6 +18,9 @@ func NewSocializeService(ctx context.Context, c *app.RequestContext) *SocializeS
 }
 
 func (s *SocializeService) FollowUser(req *socialize.FollowRequest) error {
+	if req.ToUserID == GetUserIDFromContext(s.c) {
+		return errors.New("cannot follow yourself")
+	}
 	return db.FollowUser(s.ctx, req.ToUserID, req.ActionType, GetUserIDFromContext(s.c))
 }
 
