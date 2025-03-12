@@ -12,7 +12,7 @@ type Base struct {
 }
 
 type Response struct {
-	Base Base `json:"base"`
+	Base `json:"base"`
 }
 
 // 数据类型多样-用interface
@@ -33,7 +33,14 @@ func BuildBaseResp(err error) *model.BaseResp {
 }
 
 func SendFailResponse(c *app.RequestContext, err error) {
-	SendResponse(c, BuildBaseResp(err))
+	baseResp := Base{
+		Code: 10001,
+		Msg:  err.Error(),
+	}
+	response := Response{
+		Base: baseResp,
+	}
+	SendResponse(c, response)
 }
 
 // SendFailResponse 发送错误响应

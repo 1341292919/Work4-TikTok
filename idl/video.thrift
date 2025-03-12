@@ -5,7 +5,7 @@ include"model.thrift"
 struct PublishRequest{
     1: required string title,
     2: required string description,
-    3: required binary data (api.form="data"),//视频file
+    3: binary data (api.form="data"),//视频file
 }
 
 struct PublishResponse{

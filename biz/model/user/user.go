@@ -760,7 +760,7 @@ func (p *LoginResponse) String() string {
 }
 
 type UploadAvatarRequest struct {
-	Data []byte `thrift:"data,1,required" form:"data,required" json:"data,required"`
+	Data []byte `thrift:"data,1" form:"data" json:"data"`
 }
 
 func NewUploadAvatarRequest() *UploadAvatarRequest {
@@ -782,7 +782,6 @@ func (p *UploadAvatarRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetData bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -803,7 +802,6 @@ func (p *UploadAvatarRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetData = true
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
 			}
@@ -820,10 +818,6 @@ func (p *UploadAvatarRequest) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
-	if !issetData {
-		fieldId = 1
-		goto RequiredFieldNotSetError
-	}
 	return nil
 ReadStructBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
@@ -838,8 +832,6 @@ ReadFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
 ReadStructEndError:
 	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-RequiredFieldNotSetError:
-	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_UploadAvatarRequest[fieldId]))
 }
 
 func (p *UploadAvatarRequest) ReadField1(iprot thrift.TProtocol) error {

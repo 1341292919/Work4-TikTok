@@ -8,7 +8,7 @@ import (
 
 func User(data *db.User) *model.User {
 	return &model.User{
-		ID:        data.Id,
+		ID:        strconv.FormatInt(data.Id, 10),
 		Username:  data.Username,
 		AvatarURL: data.AvatarUrl,
 		CreatedAt: strconv.FormatInt(data.CreatedAt.Unix(), 10),

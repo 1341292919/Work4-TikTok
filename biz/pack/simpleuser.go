@@ -3,11 +3,12 @@ package pack
 import (
 	"TikTok/biz/dal/db"
 	"TikTok/biz/model/model"
+	"strconv"
 )
 
 func SimpleUser(data *db.User) *model.SimpleUser {
 	return &model.SimpleUser{
-		ID:        data.Id,
+		ID:        strconv.FormatInt(data.Id, 10),
 		Username:  data.Username,
 		AvatarURL: data.AvatarUrl,
 	}

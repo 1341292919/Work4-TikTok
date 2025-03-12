@@ -1,7 +1,7 @@
 namespace go model
 
 struct User{
-    1: required i64 id,           //用户id
+    1: required string id,           //用户id
     2: required string username,  //用户名
     3: required string avatar_url
     4: required string created_at
@@ -10,14 +10,14 @@ struct User{
 }
 
 struct SimpleUser{
-    1: required i64 id,           //用户id
+    1: required string id,           //用户id
     2: required string username,  //用户名
     3: required string avatar_url
 }
 
 struct Video{
-    1: required i64 id,            //视频id
-    2: required i64 userid,
+    1: required string id,            //视频id
+    2: required string user_id,
     3: required string video_url,     //视频文件链接
     4: required string cover_url ,    //封面链接
     5: required string title ,//视频标题
@@ -30,9 +30,9 @@ struct Video{
     12: required string deleted_at
 }
 struct Comment{
-    1: required i64 id,//评论id
-    2: required i64 user_id,
-    3: required i64 video_id,
+    1: required string id,//评论id
+    2: required string user_id,
+    3: required string video_id,
     4: required string content,
     5: required string created_at
     6: required string updated_at

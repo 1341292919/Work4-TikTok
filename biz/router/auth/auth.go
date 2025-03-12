@@ -9,6 +9,7 @@ import (
 )
 
 func Auth() []app.HandlerFunc {
+	//为了有扩展性
 	return append(make([]app.HandlerFunc, 0),
 		DoubleTokenAuthFunc(),
 	)

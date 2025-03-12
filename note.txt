@@ -13,3 +13,6 @@ TableComment本不应该设置delete_at的 并且当用户没有删除该评论�
 docker image
 docker ps
 docker ps-
+
+3.10
+c.JSON(consts.StatusOK, data)data内容如果是定义完整的response会自动封装结构体的变量名称

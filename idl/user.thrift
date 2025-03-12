@@ -21,7 +21,7 @@ struct LoginResponse{
 }
 
 struct UploadAvatarRequest{
-     1:required binary data (api.form="data"),
+     1: binary data (api.form="data"),
     //body参数avatar文件
 }
 struct UploadAvatarResponse{

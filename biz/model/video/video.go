@@ -13,7 +13,7 @@ type PublishRequest struct {
 	Title       string `thrift:"title,1,required" form:"title,required" json:"title,required" query:"title,required"`
 	Description string `thrift:"description,2,required" form:"description,required" json:"description,required" query:"description,required"`
 	//视频file
-	Data []byte `thrift:"data,3,required" form:"data,required" json:"data,required"`
+	Data []byte `thrift:"data,3" form:"data" json:"data"`
 }
 
 func NewPublishRequest() *PublishRequest {
@@ -47,7 +47,6 @@ func (p *PublishRequest) Read(iprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	var issetTitle bool = false
 	var issetDescription bool = false
-	var issetData bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -86,7 +85,6 @@ func (p *PublishRequest) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetData = true
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
 			}
@@ -110,11 +108,6 @@ func (p *PublishRequest) Read(iprot thrift.TProtocol) (err error) {
 
 	if !issetDescription {
 		fieldId = 2
-		goto RequiredFieldNotSetError
-	}
-
-	if !issetData {
-		fieldId = 3
 		goto RequiredFieldNotSetError
 	}
 	return nil

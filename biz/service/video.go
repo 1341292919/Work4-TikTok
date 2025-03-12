@@ -50,7 +50,11 @@ func (s *VideoService) QueryVideoByKeyword(req *video.SearchVideoByKeywordReques
 	if fromDate.Unix() > toDate.Unix() {
 		return nil, 0, errors.New("fromDate is after toDate")
 	}
-	return db.SearchVideoByKeywordDuringTime(s.ctx, req.Keyword, req.PageSize, req.PageNum, toDate, fromDate)
+	if req.Username == "" {
+		return db.SearchVideoByKeywordDuringTime(s.ctx, req.Keyword, req.PageSize, req.PageNum, toDate, fromDate)
+	} else {
+		return db.SearchVideoByKeywordDuringTimeAndUser(s.ctx, req.Username, req.Keyword, req.PageSize, req.PageNum, toDate, fromDate)
+	}
 }
 
 func (s *VideoService) QueryVideoByPopularity(req *video.GetPopularListRequest) ([]*db.Video, int64, error) {

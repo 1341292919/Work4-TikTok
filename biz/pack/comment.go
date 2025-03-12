@@ -8,9 +8,9 @@ import (
 
 func Comment(data *db.Comment) *model.Comment {
 	return &model.Comment{
-		ID:        data.Id,
-		UserID:    data.UserId,
-		VideoID:   data.VideoId,
+		ID:        strconv.FormatInt(data.Id, 10),
+		UserID:    strconv.FormatInt(data.UserId, 10),
+		VideoID:   strconv.FormatInt(data.VideoId, 10),
 		Content:   data.Content,
 		CreatedAt: strconv.FormatInt(data.CreatedAt.Unix(), 10),
 		UpdatedAt: strconv.FormatInt(data.UpdatedAt.Unix(), 10),

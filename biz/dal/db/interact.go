@@ -130,7 +130,7 @@ func QueryLikeList(ctx context.Context, userid, pagesize, pagenum int64) ([]*Vid
 		err = DB.WithContext(ctx).
 			Table(constants.TableVideo).
 			Where("id = ?", video.Id).
-			Update("visit_count", gorm.Expr("visit_count - 1")).
+			Update("visit_count", gorm.Expr("visit_count + 1")).
 			Error
 		if err != nil {
 
