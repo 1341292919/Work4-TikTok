@@ -1,4 +1,4 @@
-package service
+package usercase
 
 import (
 	"TikTok/biz/dal/db"

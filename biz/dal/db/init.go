@@ -2,7 +2,6 @@ package db
 
 import (
 	"TikTok/pkg/constants"
-	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"time"
@@ -15,7 +14,6 @@ func Init() {
 	DB, err = gorm.Open(mysql.Open(constants.MySQLDSN), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})
-	hlog.Infof("db init suceess")
 	if err != nil {
 		panic(err)
 	}

@@ -4,7 +4,6 @@ import (
 	"TikTok/pkg/constants"
 	"context"
 	"errors"
-	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"gorm.io/gorm"
 	"log"
 )
@@ -43,6 +42,7 @@ func LikeVideo(ctx context.Context, userid, videoid, action_type int64) error {
 			Where("id = ?", videoid).
 			Update("like_count", gorm.Expr("like_count + 1")).
 			Error
+		//DB.Transaction()
 		if err != nil {
 			return err
 		}
@@ -199,65 +199,62 @@ func QueryVideoCommentList(ctx context.Context, videoid, pagesize, pagenum int64
 }
 
 func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) error {
-	//如果有传入视频的id，那么就删掉所有的评论
 	var err error
-	if videoid != 0 {
-		var commentResp []*Comment
-		err = DB.WithContext(ctx).
-			Table(constants.TableComment).
-			Where("video_id = ? AND user_id = ?", videoid, userid).
-			Find(&commentResp).
-			Error
-		if err != nil {
-			return err
-		}
-		err = DB.WithContext(ctx).
-			Table(constants.TableComment).
-			Delete(&Comment{
-				VideoId: videoid,
-				UserId:  userid,
-			}).Error
-		if err != nil {
-			return err
-		}
-		//到对应的视频底下改变评论数目
-		for _, comment := range commentResp {
-			err = DB.WithContext(ctx).
-				Table(constants.TableVideo).
-				Where("id = ?", comment.VideoId).
-				Update("comment_count", gorm.Expr("comment_count - 1")).
+	err = DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if videoid != 0 {
+			//删除某个视下的所有评论
+			var commentCount int64
+			err = tx.Table(constants.TableComment).
+				Where("video_id = ? AND user_id = ?", videoid, userid).
+				Count(&commentCount).
 				Error
+			if commentCount == 0 {
+				return errors.New("comment under the video not exist")
+			}
+			if err != nil {
+				return err
+			}
+			err = tx.Table(constants.TableComment).
+				Where("video_id = ? AND user_id = ?", videoid, userid).
+				Delete(&Comment{}).
+				Error
+			if err != nil {
+				return err
+			}
+		} else {
+			//删除某条特定评论
+			var commentResp *Comment
+			err = tx.Table(constants.TableComment).
+				Where("id = ? AND user_id = ?", commentid, userid).
+				First(&commentResp).
+				Error
+			if err != nil {
+				return err
+			}
+			err = tx.Table(constants.TableComment).
+				Where("id = ? AND user_id = ?", commentid, userid).
+				Delete(&Comment{}).
+				Error
+			if err != nil {
+				return err
+			}
+			//更新视频的评论总数
+			err = updateCommentCount(ctx, tx, videoid, -1)
 			if err != nil {
 				return err
 			}
 		}
 		return nil
-	} else {
-		var commentResp *Comment
-		err = DB.WithContext(ctx).
-			Table(constants.TableComment).
-			Where("id = ? And user_id = ?", commentid, userid).
-			First(&commentResp).
-			Error
-		if err != nil {
-			return err
-		}
-		hlog.Infof("%v  %v", commentid, userid)
-		err = DB.WithContext(ctx).
-			Table(constants.TableComment).
-			Delete(&Comment{
-				Id:     commentid,
-				UserId: userid,
-			}).Error
-		err = DB.WithContext(ctx).
-			Table(constants.TableVideo).
-			Where("id = ? ", commentResp.VideoId).
-			Update("comment_count", gorm.Expr("comment_count - 1")).
-			Error
-		if err != nil {
-			return err
-		}
-		return nil
+	})
+	if err != nil {
+		return err
 	}
+	return nil
+}
 
+func updateCommentCount(ctx context.Context, tx *gorm.DB, videoid int64, delta int) error {
+	return tx.Table(constants.TableVideo).
+		Where("id = ?", videoid).
+		Update("comment_count", gorm.Expr("comment_count + ?", delta)).
+		Error
 }
