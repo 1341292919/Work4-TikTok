@@ -19,6 +19,7 @@ type Response struct {
 func SendResponse(c *app.RequestContext, data interface{}) {
 	c.JSON(consts.StatusOK, data)
 }
+
 func BuildBaseResp(err error) *model.BaseResp {
 	if err == nil {
 		return &model.BaseResp{

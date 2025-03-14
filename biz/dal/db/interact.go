@@ -239,7 +239,7 @@ func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) e
 				return err
 			}
 			//更新视频的评论总数
-			err = updateCommentCount(ctx, tx, videoid, -1)
+			err = updateCommentCount(tx, videoid, -1)
 			if err != nil {
 				return err
 			}
@@ -252,7 +252,7 @@ func DeleteVideoComment(ctx context.Context, userid, videoid, commentid int64) e
 	return nil
 }
 
-func updateCommentCount(ctx context.Context, tx *gorm.DB, videoid int64, delta int) error {
+func updateCommentCount(tx *gorm.DB, videoid int64, delta int) error {
 	return tx.Table(constants.TableVideo).
 		Where("id = ?", videoid).
 		Update("comment_count", gorm.Expr("comment_count + ?", delta)).
